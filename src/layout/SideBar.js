@@ -67,7 +67,7 @@ const IconToggle = styled.i`
     color: #04193d;
 `
 
-const SideBar = ({links, width, toggleClick}) => {
+const SideBar = ({links, width, toggleClick, profileImg}) => {
 
     return(
         <>

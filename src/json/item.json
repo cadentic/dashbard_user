@@ -1,11 +1,11 @@
 {
     "items" : [
-        {"01" : "item"},
-        {"02" : "item"},
-        {"03" : "item"},
-        {"04" : "item"}
+        {"key": "01", "title" : "item"},
+        {"key": "02", "title" : "item"},
+        {"key": "03", "title" : "item"},
+        {"key": "04", "title" : "item"}
     ],
-    "message" : [
+    "messages" : [
         {
             "name" : "Johnson, Mark",
             "title" : "[ invoice November ]",
@@ -27,12 +27,10 @@
             "state" : "Presentation Material"
         }
     ],
-    "invoice" : [
-        {
-            "01" : "Invoices 01/November/1245/s/0",
-            "02" : "Invoices 01/November/1245/s/0",
-            "03" : "Invoices 01/November/1245/s/0",
-            "04" : "Invoices 01/November/1245/s/0"
-        }
+    "invoices" : [
+            {"key": "01" , "title": "Invoices 01/November/1245/s/0"},
+            {"key": "02" , "title": "Invoices 01/November/1245/s/0"},
+            {"key": "03" , "title": "Invoices 01/November/1245/s/0"},
+            {"key": "04" , "title": "Invoices 01/November/1245/s/0"}
     ]
 }

@@ -7,19 +7,10 @@ import { Card,
 import { Chart } from 'react-charts'
 import styled from 'styled-components';
 import { CircularProgressbar } from 'react-circular-progressbar';
+import sidebarInfo from '../../json/sidebar-infos.json';
+import content from '../../json/item.json';
+import chart from '../../json/chart.json';
 
-const links = [
-    {href:'/', title: 'Dashboard'},
-    {href:'/', title: 'Inbox'},
-    {href:'/', title: 'Send'},
-    {href:'/', title: 'Draft'},
-    {href:'/', title: 'Apps'},
-    {href:'/', title: 'Add ons'},
-    {href:'/', title: 'Project'},
-    {href:'/', title: 'Notes'},
-    {href:'/', title: 'Favorit'},
-    {href:'/', title: 'Setting'},
-]
 
 const Main = styled.div`
     margin-left: ${props => props.navShow ? '180px' : '0px'};
@@ -103,38 +94,17 @@ const DashboardUser = () => {
 
     const [showNav, setShowNav] = useState(true)
 
-    const data = useMemo(
-        () => [
-          {
-            label: 'Series 1',
-            data: [[0, 1], [1, 2], [2, 4], [3, 2], [4, 7]]
-          }
-        ],
-        []
-      )
-     
-      const data2 = useMemo(
-        () => [
-          {
-            label: 'Series 1',
-            data: [[0, 1], [1, 2], [2, 4], [3, 2], [4, 7], [3, 5], [6, 7]]
-          }
-        ],
-        []
-      )
+    const axes = useMemo(() => chart.axes, [])
 
-      const axes = useMemo(
-        () => [
-          { primary: true, type: 'linear', position: 'bottom', show: false },
-          { type: 'linear', position: 'left', show: false }
-        ],
-        []
-      )
+    const graph = useMemo(() => [chart.graph], [])
+
+    const bar = useMemo(() => [chart.bar], [])
 
     return(
         <>
             <SideBar  
-                links={links}
+                links={sidebarInfo.links}
+                profileImg={sidebarInfo.img_profile}
                 toggleClick={() => setShowNav(false)}
                 width={showNav ? '180px' : '0px'}
             />
@@ -152,7 +122,7 @@ const DashboardUser = () => {
                                 <h3>income</h3>
                                 <ChartContainer style={{height: `103px`}}>
                                     <Chart 
-                                        data={data} 
+                                        data={graph} 
                                         axes={axes}
                                         series={{type: 'area'}}
                                     />
@@ -182,7 +152,7 @@ const DashboardUser = () => {
                                 <h3>growth</h3>
                                 <ChartContainer style={{height: `103px`}}>
                                     <Chart 
-                                        data={data2} 
+                                        data={bar} 
                                         axes={axes}
                                         series={{type: 'bar'}}
                                     />
@@ -261,22 +231,16 @@ const DashboardUser = () => {
                         <Card>
                             <CardContent>
                                 <h3>most viewed item</h3> 
-                                <Item>
-                                    <p>item 01</p>
-                                    <ItemBtn>Boost</ItemBtn>
-                                </Item>
-                                <Item>
-                                    <p>item 02</p>
-                                    <ItemBtn>Boost</ItemBtn>
-                                </Item>
-                                <Item>
-                                    <p>item 03</p>
-                                    <ItemBtn>Boost</ItemBtn>
-                                </Item>
-                                <Item>
-                                    <p>item 04</p>
-                                    <ItemBtn>Boost</ItemBtn>
-                                </Item>
+                                {
+                                    content.items.map((item, index) => {
+                                        return(
+                                            <Item key={item.key}>
+                                                <p>{item.title} {item.key}</p>
+                                                <ItemBtn>Boost</ItemBtn>
+                                            </Item>
+                                        )
+                                    })
+                                }
                             </CardContent>
                         </Card>
                     </Grid>
@@ -284,41 +248,19 @@ const DashboardUser = () => {
                         <Card>
                             <CardContent>
                                 <h3>invoice</h3>
-                                <Item>
-                                    <DotTextContainer>
-                                        <DotItem />
-                                        <p>Invoices 01/November/1245/s/0</p>
-                                    </DotTextContainer>
-                                    <ItemBtn>Boost</ItemBtn>
-                                </Item>
-                                <Item>
-                                    <DotTextContainer>
-                                        <DotItem />
-                                        <p>Invoices 01/November/1245/s/0</p>
-                                    </DotTextContainer>
-                                    <ItemBtn>Boost</ItemBtn>
-                                </Item>
-                                <Item>
-                                    <DotTextContainer>
-                                        <DotItem />
-                                        <p>Invoices 01/November/1245/s/0</p>
-                                    </DotTextContainer>
-                                    <ItemBtn>Boost</ItemBtn>
-                                </Item>
-                                <Item>
-                                    <DotTextContainer>
-                                        <DotItem />
-                                        <p>Invoices 01/November/1245/s/0</p>
-                                    </DotTextContainer>
-                                    <ItemBtn>Boost</ItemBtn>
-                                </Item>
-                                <Item>
-                                    <DotTextContainer>
-                                        <DotItem />
-                                        <p>Invoices 01/November/1245/s/0</p>
-                                    </DotTextContainer>
-                                    <ItemBtn>Boost</ItemBtn>
-                                </Item>
+                                {
+                                    content.invoices.map((item, index) => {
+                                        return(
+                                            <Item key={item.key}>
+                                                <DotTextContainer>
+                                                    <DotItem />
+                                                    <p>{item.title}</p>
+                                                </DotTextContainer>
+                                                <ItemBtn>Boost</ItemBtn>
+                                            </Item>
+                                        )
+                                    })
+                                }
                             </CardContent>
                         </Card>
                     </Grid>
@@ -326,31 +268,17 @@ const DashboardUser = () => {
                         <Card>
                             <CardContent>
                                 <h3>message</h3>
-                                <Item>
-                                    <ItemHighly>Johnson, Mark</ItemHighly>
-                                    <p>[ invoice November ]</p>
-                                    <p>Status Update : Success</p>
-                                </Item>
-                                <Item>
-                                    <ItemHighly>Adelia, Nadia</ItemHighly>
-                                    <p>[ Project Assigment ]</p>
-                                    <p>Presentation Material</p>
-                                </Item>
-                                <Item>
-                                    <ItemHighly>Amelia, Laura</ItemHighly>
-                                    <p>[ Meeting Schedule ]</p>
-                                    <p>Project : interior design</p>
-                                </Item>
-                                <Item>
-                                    <ItemHighly>Johnson, Mark</ItemHighly>
-                                    <p>[ invoice November ]</p>
-                                    <p>Status Update : Success</p>
-                                </Item>
-                                <Item>
-                                    <ItemHighly>Adelia, Nadia</ItemHighly>
-                                    <p>[ Project Assigment ]</p>
-                                    <p>Presentation Material</p>
-                                </Item>
+                                {
+                                    content.messages.map((item, index) => {
+                                        return(
+                                           <Item key={index} >
+                                                <ItemHighly>{item.name}</ItemHighly>
+                                                <p>{item.title}</p>
+                                                <p>{item.state}</p>
+                                            </Item> 
+                                        )
+                                    })
+                                }
                             </CardContent>
                         </Card>
                     </Grid>

@@ -1,15 +1,14 @@
 {
-    "img_profile" : "http:///images/default_user.png",
     "links" : [
-        {"Dashboard" : "/"},
-        {"Inbox" : "/"},
-        {"Send" : "/"},
-        {"Draft" : "/"},
-        {"Apps" : "/"},
-        {"Add ons" : "/"},
-        {"Project" : "/"},
-        {"Notes" : "/"},
-        {"Favorit" : "/"},
-        {"Setting" : "/"}
+        {"href" : "/", "title" : "Dashboard"},
+        {"title": "Inbox", "href" : "/"},
+        {"title": "Send", "href" : "/"},
+        {"title": "Draft", "href" : "/"},
+        {"title": "Apps", "href" : "/"},
+        {"title": "Add ons", "href" : "/"},
+        {"title": "Project", "href" : "/"},
+        {"title": "Notes", "href" : "/"},
+        {"title": "Favorit", "href" : "/"},
+        {"title": "Setting", "href" : "/"}
     ]
 }
