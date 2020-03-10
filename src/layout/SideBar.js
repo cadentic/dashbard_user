@@ -3,23 +3,25 @@ import { Dehaze } from '@material-ui/icons';
 import img from '../images/default_user.png';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
+import MUIRichTextEditor from 'mui-rte'
 
 const SideBarContainer = styled.div`
     background-color: white;
     display: flex;
-    align-items: center;
+    
     flex-direction: column;
     padding-top: 30px;
+    width: ${props=> props.width};
     height: 100%;
     border-right: solid 3px #d5d1e8;
     z-index: 2;
     transition: 0.5s;
     overflow-x: hidden;
+    padding-left: 30px;
 `
 
 const ToggleBtnOpen = styled.div`
     margin-bottom: 45px;
-    margin-left: -50px;
 `
 
 
@@ -33,7 +35,7 @@ const ProfileImg = styled.img`
 const ProfileText = styled.h5`
     color: #04193d;
     font-size: 1.1rem;
-    margin-top: 22px
+    margin-top: 22px;
     margin-bottom: 22px;
     font-weight: 600;
 `
@@ -42,6 +44,7 @@ const Bar = styled.div`
     background-color: #d5d1e8;
     height: 1px;
     width: 40%;
+    
 `
 
 const LinkContainer = styled.div`
@@ -59,7 +62,7 @@ const Link = styled.a`
 
 `
 
-const SideBar = ({links, width, closeDrawer}) => {
+const SideBar = ({links, width, closeDrawer, data}) => {
 
     return(
         <>
@@ -89,9 +92,12 @@ const SideBar = ({links, width, closeDrawer}) => {
                     })
                 }
                 </LinkContainer>
-
                 
             </SideBarContainer>
+            <MUIRichTextEditor 
+                    value={data}
+                    label="Start typing..." 
+                />
         </>
     )
 }

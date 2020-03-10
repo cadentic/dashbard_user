@@ -13,7 +13,7 @@ import sidebarInfo from '../../json/sidebar-infos.json';
 import content from '../../json/item.json';
 import chart from '../../json/chart.json';
 
-const drawerWidth = "120px"
+const drawerWidth = '350px'
 
 const useStyles = makeStyles(theme => ({
     drawer: {
@@ -106,6 +106,8 @@ const DashboardUser = () => {
 
     const [openDrawer, setOpenDrawer] = useState(true)
 
+    const [dataEditor, setDataEditor] = useState('')
+
     const classes = useStyles();
 
     const axes = useMemo(() => chart.axes, [])
@@ -129,6 +131,7 @@ const DashboardUser = () => {
                      links = {sidebarInfo.links}
                      width = {drawerWidth}
                      closeDrawer = {() => setOpenDrawer(false)}
+                     data={dataEditor}
                 />
             </Drawer>
             <Main
