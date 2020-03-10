@@ -1,4 +1,5 @@
 import React, {useState, useRef} from 'react';
+import { Dehaze } from '@material-ui/icons';
 import styled from 'styled-components';
  
 const SearchBarContainer = styled.div`
@@ -54,13 +55,6 @@ const BigIcon = styled.i`
     font-size: 35px;
 `
 
-const ToggleIcon = styled.i`
-    color: #04193d;
-    font-size: 35px;
-    margin-right: 8px;
-    display: ${props => !props.showToggle ? 'block' : 'none'}
-`
-
 const NotifIcon = styled.i`
     color: #04193d;
     font-size: 18px;
@@ -88,9 +82,13 @@ const SearchBar = ({showNav, onClick}) => {
             ref={stickyBar}
             sticky={barSticky} 
             >
-            <ToggleIcon 
-                className="fas fa-bars"
-                showToggle={showNav}
+             <Dehaze
+                style={{
+                    fontSize: '35px',
+                    color: '#04193d',
+                    marginRight: 8,
+                    display: !showNav ? 'block' : 'none'
+                }} 
                 onClick={onClick}
             />
             <SearchInputContainer>

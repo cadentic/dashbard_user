@@ -1,4 +1,5 @@
 import React from 'react';
+import { Dehaze } from '@material-ui/icons';
 import img from '../images/default_user.png';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
@@ -62,20 +63,18 @@ const Link = styled.a`
 
 `
 
-const IconToggle = styled.i`
-    font-size: 35px;
-    color: #04193d;
-`
-
-const SideBar = ({links, width, toggleClick, profileImg}) => {
+const SideBar = ({links, width, toggleClick}) => {
 
     return(
         <>
             <SideBarContainer width={width}>
                 <ToggleBtnOpen >
-                    <IconToggle 
+                    <Dehaze
+                        style={{
+                            fontSize: '35px',
+                            color: '#04193d'
+                        }} 
                         onClick={toggleClick}
-                        className="fas fa-bars"
                     />
                 </ToggleBtnOpen>
                 <ProfileImg 
