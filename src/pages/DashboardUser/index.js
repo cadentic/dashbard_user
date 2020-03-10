@@ -5,15 +5,27 @@ import { Card,
          CardContent,
          Grid} from '@material-ui/core';
 import { Chart } from 'react-charts'
+import Drawer from '@material-ui/core/Drawer';
+import { makeStyles } from '@material-ui/core/styles';
 import styled from 'styled-components';
 import { CircularProgressbar } from 'react-circular-progressbar';
 import sidebarInfo from '../../json/sidebar-infos.json';
 import content from '../../json/item.json';
 import chart from '../../json/chart.json';
 
+const drawerWidth = "120px"
+
+const useStyles = makeStyles(theme => ({
+    drawer: {
+      width: drawerWidth,
+      flexShrink: 0,
+    },
+    drawerPaper: {
+      width: drawerWidth,
+    },
+  }));
 
 const Main = styled.div`
-    margin-left: ${props => props.navShow ? '180px' : '0px'};
     transition: margin-left .5s;
 `
 
@@ -92,7 +104,9 @@ const ExpenseProgress = styled.div`
 
 const DashboardUser = () => {
 
-    const [showNav, setShowNav] = useState(true)
+    const [openDrawer, setOpenDrawer] = useState(true)
+
+    const classes = useStyles();
 
     const axes = useMemo(() => chart.axes, [])
 
@@ -102,18 +116,27 @@ const DashboardUser = () => {
 
     return(
         <>
-            <SideBar  
-                links={sidebarInfo.links}
-                profileImg={sidebarInfo.img_profile}
-                toggleClick={() => setShowNav(false)}
-                width={showNav ? '180px' : '0px'}
-            />
+            <Drawer
+                variant="persistent"
+                className={classes.drawer}
+                anchor="left"
+                open={openDrawer}
+                classes={{
+                    paper: classes.drawerPaper,
+                }}
+            >
+                <SideBar
+                     links = {sidebarInfo.links}
+                     width = {drawerWidth}
+                     closeDrawer = {() => setOpenDrawer(false)}
+                />
+            </Drawer>
             <Main
-                navShow={showNav} 
+                navShow={openDrawer} 
                 >
                 <SearchBar
-                    onClick={() => setShowNav(true)}
-                    showNav={showNav}
+                    onClick={() => setOpenDrawer(true)}
+                    openDrawer={openDrawer}
                 />
                 <Grid container spacing={3}  style={{ margin: 0, height: '100%', padding: 20, width: '100%'}}>
                     <Grid item xs={12} md={8} >

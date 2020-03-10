@@ -10,12 +10,8 @@ const SideBarContainer = styled.div`
     align-items: center;
     flex-direction: column;
     padding-top: 30px;
-    position: fixed;
-    width: ${props=> props.width};
     height: 100%;
     border-right: solid 3px #d5d1e8;
-    top: 0;
-    left: 0;
     z-index: 2;
     transition: 0.5s;
     overflow-x: hidden;
@@ -63,7 +59,7 @@ const Link = styled.a`
 
 `
 
-const SideBar = ({links, width, toggleClick}) => {
+const SideBar = ({links, width, closeDrawer}) => {
 
     return(
         <>
@@ -74,7 +70,7 @@ const SideBar = ({links, width, toggleClick}) => {
                             fontSize: '35px',
                             color: '#04193d'
                         }} 
-                        onClick={toggleClick}
+                        onClick={closeDrawer}
                     />
                 </ToggleBtnOpen>
                 <ProfileImg 
