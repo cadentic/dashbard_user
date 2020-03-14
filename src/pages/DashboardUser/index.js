@@ -1,17 +1,17 @@
-import React, {useMemo, useState} from 'react';
+import React, {useMemo, useState, useEffect} from 'react';
 import SideBar from '../../layout/SideBar';
 import SearchBar from './components/SearchBar';
 import { Card, 
          CardContent,
          Grid} from '@material-ui/core';
 import { Chart } from 'react-charts'
+import { Bar, Line } from 'react-chartjs-2';
 import Drawer from '@material-ui/core/Drawer';
 import { makeStyles } from '@material-ui/core/styles';
 import styled from 'styled-components';
 import { CircularProgressbar } from 'react-circular-progressbar';
-import sidebarInfo from '../../json/sidebar-infos.json';
-import content from '../../json/item.json';
-import chart from '../../json/chart.json';
+import axios from 'axios';
+import isEmpty from '../../utils/is-empty';
 
 const drawerWidth = '350px'
 
@@ -104,17 +104,44 @@ const ExpenseProgress = styled.div`
 
 const DashboardUser = () => {
 
+
+    
+
     const [openDrawer, setOpenDrawer] = useState(true)
 
     const [dataEditor, setDataEditor] = useState('')
 
+
+    const [content, setContent] = useState({})
+
+    const [links, setLinks] = useState([])
+
+    const [getGraph, setGetGraph] = useState([])
+
+
     const classes = useStyles();
 
-    const axes = useMemo(() => chart.axes, [])
 
-    const graph = useMemo(() => [chart.graph], [])
+    
+    useEffect(() => {
+        axios.get('chart.json').then(response => {
+            setGetGraph(response.data)
+        })
+    }, [])
 
-    const bar = useMemo(() => [chart.bar], [])
+    useEffect(() => {
+        axios.get('sidebar-infos.json').then(response => {
+            setLinks(response.data.links)
+        })
+    }, [])
+
+    useEffect(() => {
+        axios.get('item.json').then(response => {
+            setContent(response.data)
+            
+        })
+    }, [])
+
 
     return(
         <>
@@ -128,7 +155,7 @@ const DashboardUser = () => {
                 }}
             >
                 <SideBar
-                     links = {sidebarInfo.links}
+                     links = {links}
                      width = {drawerWidth}
                      closeDrawer = {() => setOpenDrawer(false)}
                      data={dataEditor}
@@ -146,12 +173,18 @@ const DashboardUser = () => {
                         <Card>
                             <CardContent >
                                 <h3>income</h3>
-                                <ChartContainer style={{height: `103px`}}>
-                                    <Chart 
-                                        data={graph} 
-                                        axes={axes}
-                                        series={{type: 'area'}}
-                                    />
+                                <ChartContainer style={{height: `200px`}}>
+                                {
+                                        getGraph.length < 0 ? <div>...loading</div>
+                                                     :
+                                                    <Line 
+                                                        data={getGraph.line}
+                                                        height={200}
+                                                        options={{
+                                                            maintainAspectRatio: false
+                                                        }}
+                                                    />
+                                }
                                 </ChartContainer>
                             </CardContent>
                         </Card>
@@ -176,12 +209,19 @@ const DashboardUser = () => {
                         <Card>
                             <CardContent>
                                 <h3>growth</h3>
-                                <ChartContainer style={{height: `103px`}}>
-                                    <Chart 
-                                        data={bar} 
-                                        axes={axes}
-                                        series={{type: 'bar'}}
-                                    />
+                                <ChartContainer style={{height: `180px`}}>
+                                    {
+                                        getGraph.length < 0 ? <div>...loading</div>
+                                                     :
+                                                    <Bar 
+                                                        data={getGraph.bar}
+                                                        height={150}
+                                                        options={{
+                                                            maintainAspectRatio: false
+                                                        }}
+                                                    />
+                                    }
+                                    
                                 </ChartContainer>
                             </CardContent>
                         </Card>
@@ -258,14 +298,16 @@ const DashboardUser = () => {
                             <CardContent>
                                 <h3>most viewed item</h3> 
                                 {
-                                    content.items.map((item, index) => {
-                                        return(
-                                            <Item key={item.key}>
-                                                <p>{item.title} {item.key}</p>
-                                                <ItemBtn>Boost</ItemBtn>
-                                            </Item>
-                                        )
-                                    })
+                                    !isEmpty(content)  ? content.items.map((item, index) => {
+                                                            return(
+                                                                <Item key={item.key}>
+                                                                    <p>{item.title} {item.key}</p>
+                                                                    <ItemBtn>Boost</ItemBtn>
+                                                                </Item>
+                                                            )
+                                                        })
+                                                        :
+                                                        ""
                                 }
                             </CardContent>
                         </Card>
@@ -275,17 +317,19 @@ const DashboardUser = () => {
                             <CardContent>
                                 <h3>invoice</h3>
                                 {
-                                    content.invoices.map((item, index) => {
-                                        return(
-                                            <Item key={item.key}>
-                                                <DotTextContainer>
-                                                    <DotItem />
-                                                    <p>{item.title}</p>
-                                                </DotTextContainer>
-                                                <ItemBtn>Boost</ItemBtn>
-                                            </Item>
-                                        )
-                                    })
+                                    !isEmpty(content) ? content.invoices.map((item, index) => {
+                                                    return(
+                                                        <Item key={item.key}>
+                                                            <DotTextContainer>
+                                                                <DotItem />
+                                                                <p>{item.title}</p>
+                                                            </DotTextContainer>
+                                                            <ItemBtn>Boost</ItemBtn>
+                                                        </Item>
+                                                    )
+                                                })
+                                                :
+                                                ""
                                 }
                             </CardContent>
                         </Card>
@@ -295,15 +339,17 @@ const DashboardUser = () => {
                             <CardContent>
                                 <h3>message</h3>
                                 {
-                                    content.messages.map((item, index) => {
-                                        return(
-                                           <Item key={index} >
-                                                <ItemHighly>{item.name}</ItemHighly>
-                                                <p>{item.title}</p>
-                                                <p>{item.state}</p>
-                                            </Item> 
-                                        )
-                                    })
+                                    !isEmpty(content)  ?  content.messages.map((item, index) => {
+                                                    return(
+                                                    <Item key={index} >
+                                                            <ItemHighly>{item.name}</ItemHighly>
+                                                            <p>{item.title}</p>
+                                                            <p>{item.state}</p>
+                                                        </Item> 
+                                                    )
+                                                })
+                                                :
+                                                ""
                                 }
                             </CardContent>
                         </Card>
