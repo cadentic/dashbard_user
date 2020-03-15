@@ -1,9 +1,10 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { Dehaze } from '@material-ui/icons';
 import img from '../images/default_user.png';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import MUIRichTextEditor from 'mui-rte'
+import MUIRichTextEditor from 'mui-rte';
+import axios from 'axios';
 
 const SideBarContainer = styled.div`
     background-color: white;
@@ -64,6 +65,10 @@ const Link = styled.a`
 
 const SideBar = ({links, width, closeDrawer, data}) => {
 
+    const [edit, setEdit] = useState('');
+
+    axios.post('editor.json', edit)
+
     return(
         <>
             <SideBarContainer width={width}>
@@ -76,6 +81,11 @@ const SideBar = ({links, width, closeDrawer, data}) => {
                         onClick={closeDrawer}
                     />
                 </ToggleBtnOpen>
+                <MUIRichTextEditor 
+                    value={data}
+                    label="Start typing..."
+                    onSave={save => setEdit(save)}
+                />
                 <ProfileImg 
                     src={img} 
                     alt="profile" />
@@ -94,10 +104,6 @@ const SideBar = ({links, width, closeDrawer, data}) => {
                 </LinkContainer>
                 
             </SideBarContainer>
-            <MUIRichTextEditor 
-                    value={data}
-                    label="Start typing..." 
-                />
         </>
     )
 }
